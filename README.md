@@ -1,6 +1,7 @@
 # GPR-Zitierstil für Zotero
 
 CSL-Zitierstil für die Zeitschrift *GPR – Zeitschrift für das Privatrecht der Europäischen Union*.
+*Der Zitierstil wurde unter Zuhilfenahme von KI erstellt.*
 
 | Datei | Ausgabe für denselben Aufsatz (Stürner, GPR 2013, 305, zitiert S. 306) |
 |---|---|
