@@ -1,0 +1,15 @@
+# Nicht veröffentlichen
+
+# Zitierhinweise des Verlags (Rechte beim Verlag Dr. Otto Schmidt)
+GPR-Zitierhinweise_Stand*.pdf
+
+# Eigene Zotero-Daten (Export der Bibliothek)
+ZoteroData/
+
+# Aus den Zotero-Daten erzeugte Zitatliste
+Zitierweise.md
+
+# Systemdateien
+.DS_Store
+Thumbs.db
+desktop.ini

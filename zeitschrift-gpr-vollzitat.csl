@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="note" version="1.0" default-locale="de-DE">
+  <info>
+    <title>Zeitschrift für das Privatrecht der Europäischen Union (GPR) – Vollzitat</title>
+    <id>http://www.zotero.org/styles/zeitschrift-gpr-vollzitat</id>
+    <link href="http://www.zotero.org/styles/zeitschrift-gpr-vollzitat" rel="self"/>
+    <category citation-format="note"/>
+    <summary>Zitierhinweise der GPR, Stand März 2026 (Verlag Dr. Otto Schmidt), mit Aufsatztiteln (Vollzitat). Vollzitate in jeder Fußnote, keine Kurzformen wie „a.a.O.“ oder „ders.“.</summary>
+    <updated>2026-11-24T00:00:00+00:00</updated>
+    <rights license="https://creativecommons.org/licenses/by-sa/4.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</rights>
+  </info>
+
+  <!-- Verfasserin/Verfasser: nur Nachname, kursiv -->
+  <macro name="author">
+    <names variable="author">
+      <name form="short" delimiter="/" font-style="italic"/>
+    </names>
+  </macro>
+
+  <!-- Gericht (Feld "Gericht") -->
+  <macro name="case-authority">
+    <text variable="authority"/>
+  </macro>
+
+  <!-- ECLI: Feld "Rechte" (CSL license), ersatzweise "Reihentitel" -->
+  <macro name="case-ecli">
+    <choose>
+      <if variable="license">
+        <text variable="license"/>
+      </if>
+      <else>
+        <text variable="collection-title"/>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- Anmerkung: " m. Anm. Müller" – Verfasser der Anmerkung im Feld "Autor" -->
+  <macro name="case-annotation">
+    <choose>
+      <if variable="author">
+        <group prefix=" " delimiter=" ">
+          <text value="m. Anm."/>
+          <names variable="author">
+            <name form="short" delimiter="/" font-style="italic"/>
+          </names>
+        </group>
+      </if>
+    </choose>
+  </macro>
+
+  <!-- Datum ohne vorstehende Nullen und ohne Leerzeichen: 29.3.1996 -->
+  <macro name="date-full">
+    <date variable="issued">
+      <date-part name="day" form="numeric" suffix="."/>
+      <date-part name="month" form="numeric" suffix="."/>
+      <date-part name="year" form="long"/>
+    </date>
+  </macro>
+
+  <macro name="year">
+    <date variable="issued">
+      <date-part name="year" form="long"/>
+    </date>
+  </macro>
+
+  <!-- Startseite: bei "213–216" nur die erste Seite -->
+  <macro name="start-page">
+    <choose>
+      <if variable="page-first">
+        <text variable="page-first"/>
+      </if>
+      <else>
+        <text variable="page"/>
+      </else>
+    </choose>
+  </macro>
+
+  <macro name="edition">
+    <group delimiter=" ">
+      <number variable="edition" form="ordinal"/>
+      <text term="edition" form="short"/>
+    </group>
+  </macro>
+
+  <!-- Fundstelle der Rechtsprechung: Reporter Band/Jahrgang; ohne Band der Jahrgang -->
+  <macro name="case-reporter">
+    <group delimiter=" ">
+      <text variable="container-title" form="short"/>
+      <choose>
+        <if variable="volume">
+          <text variable="volume"/>
+        </if>
+        <else-if variable="page">
+          <text macro="year"/>
+        </else-if>
+      </choose>
+    </group>
+  </macro>
+
+  <!-- Herausgeberin/Herausgeber bzw. Bandverfasserin/Bandverfasser -->
+  <macro name="in-editors">
+    <choose>
+      <if variable="editor">
+        <names variable="editor">
+          <name form="short" delimiter="/"/>
+        </names>
+      </if>
+      <else-if variable="container-author">
+        <names variable="container-author">
+          <name form="short" delimiter="/"/>
+        </names>
+      </else-if>
+    </choose>
+  </macro>
+
+  <!-- Bandangabe ohne den Beitragstitel: in Hrsg, Bandtitel, Aufl. Jahr, S. Seite -->
+  <macro name="chapter-rest">
+    <group delimiter=", ">
+      <text macro="in-editors"/>
+      <text variable="container-title"/>
+      <group delimiter=" ">
+        <text macro="edition"/>
+        <text macro="year"/>
+      </group>
+      <group prefix="S. ">
+        <text variable="page"/>
+      </group>
+      <text variable="locator"/>
+    </group>
+  </macro>
+
+  <citation>
+    <layout suffix="." delimiter="; ">
+      <choose>
+
+        <!-- ================= Rechtsprechung ================= -->
+        <if type="legal_case">
+          <text macro="case-authority"/>
+          <group prefix=" v. ">
+            <text macro="date-full"/>
+          </group>
+          <group prefix=" – ">
+            <text variable="number"/>
+          </group>
+          <!-- ECLI aus "Rechte" bzw. "Reihentitel" -->
+          <group prefix=", ">
+            <text macro="case-ecli"/>
+          </group>
+          <!-- Parteiname/Schlagwort, direkt vor der ersten Fundstelle -->
+          <group prefix=" – ">
+            <text variable="title"/>
+          </group>
+          <choose>
+            <if variable="container-title">
+              <choose>
+                <if variable="page">
+                  <group prefix=", " delimiter=", ">
+                    <text macro="case-reporter"/>
+                    <text macro="start-page"/>
+                    <text variable="locator"/>
+                  </group>
+                </if>
+                <else>
+                  <group prefix=", " delimiter=" ">
+                    <text macro="case-reporter"/>
+                    <text variable="locator"/>
+                  </group>
+                </else>
+              </choose>
+            </if>
+            <else>
+              <group prefix=" ">
+                <text variable="locator"/>
+              </group>
+            </else>
+          </choose>
+          <text macro="case-annotation"/>
+        </if>
+
+        <!-- ================= Zeitschriftenaufsätze ================= -->
+        <else-if type="article-journal article-magazine article-newspaper">
+          <text macro="author"/>
+          <group prefix=", ">
+            <text variable="title"/>
+          </group>
+          <group prefix=", " delimiter=", ">
+            <group delimiter=" ">
+              <text variable="container-title" form="short"/>
+              <choose>
+                <if variable="volume">
+                  <group delimiter=" ">
+                    <text variable="volume"/>
+                    <group prefix="(" suffix=")">
+                      <text macro="year"/>
+                    </group>
+                  </group>
+                </if>
+                <else>
+                  <text macro="year"/>
+                </else>
+              </choose>
+            </group>
+            <text macro="start-page"/>
+            <text variable="locator"/>
+          </group>
+        </else-if>
+
+        <!-- ================= Kommentare, Sammelbände, Festschriften ================= -->
+        <else-if type="chapter entry-encyclopedia entry-dictionary">
+          <text macro="author"/>
+          <choose>
+            <if variable="title">
+              <group prefix=", " delimiter=", ">
+                <text variable="title"/>
+                <group prefix="in ">
+                  <text macro="chapter-rest"/>
+                </group>
+              </group>
+            </if>
+            <else>
+              <group prefix=" in ">
+                <text macro="chapter-rest"/>
+              </group>
+            </else>
+          </choose>
+        </else-if>
+
+        <!-- ================= Monografien, Hand- und Lehrbücher ================= -->
+        <else-if type="book thesis report">
+          <text macro="author"/>
+          <group prefix=", " delimiter=", ">
+            <text variable="title"/>
+            <group delimiter=" ">
+              <text macro="edition"/>
+              <text macro="year"/>
+            </group>
+            <text variable="locator"/>
+          </group>
+        </else-if>
+
+        <!-- ================= Online-Quellen ================= -->
+        <else-if type="webpage post post-weblog document">
+          <group delimiter=", ">
+            <text macro="author"/>
+            <text variable="title"/>
+            <choose>
+              <if variable="container-title">
+                <text variable="container-title"/>
+              </if>
+              <else>
+                <text variable="archive"/>
+              </else>
+            </choose>
+            <text variable="URL"/>
+            <choose>
+              <if variable="accessed">
+                <group delimiter=" ">
+                  <text value="zul. abger."/>
+                  <date variable="accessed">
+                    <date-part name="day" form="numeric" suffix="."/>
+                    <date-part name="month" form="numeric" suffix="."/>
+                    <date-part name="year" form="long"/>
+                  </date>
+                </group>
+              </if>
+              <else>
+                <text macro="date-full"/>
+              </else>
+            </choose>
+          </group>
+        </else-if>
+
+        <!-- ================= Normen (Richtlinien, Verordnungen) ================= -->
+        <else-if type="legislation regulation treaty bill">
+          <group delimiter=", ">
+            <group delimiter=" ">
+              <text variable="title"/>
+              <group prefix="v. ">
+                <text macro="date-full"/>
+              </group>
+            </group>
+            <group delimiter=" ">
+              <text variable="container-title" form="short"/>
+              <text variable="volume"/>
+            </group>
+            <text macro="start-page"/>
+            <text variable="locator"/>
+          </group>
+        </else-if>
+
+        <!-- ================= Auffangfall ================= -->
+        <else>
+          <group delimiter=", ">
+            <text macro="author"/>
+            <text variable="title"/>
+            <text variable="container-title" form="short"/>
+            <group delimiter=" ">
+              <text macro="edition"/>
+              <text macro="year"/>
+            </group>
+            <text macro="start-page"/>
+            <text variable="locator"/>
+          </group>
+        </else>
+
+      </choose>
+    </layout>
+  </citation>
+</style>
